@@ -1,7 +1,4 @@
 
-
-
-
 import React, {
   ChangeEvent,
   FormEvent,
@@ -62,7 +59,7 @@ function Home() {
   const onSearch = (e: FormEvent) => {
     e.preventDefault();
   };
-  const filtered = items.filter((info) =>
+  const filtered = items.filter((info: Item) =>
     info.title.toLowerCase().includes(title)
   );
   const mobFilter = parsedData.filter((info: Item) =>
@@ -126,12 +123,9 @@ function Home() {
               />
             </div>
           ) : (
-            filtered.map((info, i) => <SingleCard info={info} />)
+            filtered.map((info: Item, i: number) => <SingleCard info={info} />)
           )}
           <>
-            {/* {match && mobFilter.slice(start, stop).map((info, i) => (
-              <SingleCardMobile info={info} />
-            ))} */}
             {match && mobFilter.length == 0 ? (
               <div>
                 <img
