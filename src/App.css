@@ -36,6 +36,8 @@
     transform: rotate(360deg);
   }
 }
-/* @media (max-width:480px) {
-
-} */
+.planday {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
