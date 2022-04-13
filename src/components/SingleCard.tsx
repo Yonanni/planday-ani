@@ -1,11 +1,8 @@
 import { Card, Col } from "react-bootstrap";
+import { Item } from "./typing";
 
 interface Props {
-  info: {
-    title: string;
-    description: string;
-    imagePath: string;
-  };
+  info: Item
   
 }
 

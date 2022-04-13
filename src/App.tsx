@@ -4,8 +4,12 @@ import "./App.css";
 import { Container, Row } from "react-bootstrap";
 import Home from "./components/Home";
 import LoadingScreen from "./components/LoadingView";
+import { Item } from "./components/typing";
+
 
 function App() {
+
+
   const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000);
@@ -15,6 +19,7 @@ function App() {
     localStorage.setItem('items', JSON.stringify(require('./data/data.json')))
     return () => {}
   }, [])
+
   return (
     <Container>
       <Row className="d-flex">{!loading ? <Home /> : <LoadingScreen />}</Row>

@@ -1,18 +1,15 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Button, FloatingLabel, Form, Modal } from "react-bootstrap";
+import { Item } from "./typing";
 
 interface Props {
   show: boolean;
   handleClose: () => void;
 }
-interface State {
-  title: string;
-  description: string;
-  imagePath: string;
-}
+
 
 const TileForm = ({ show, handleClose }: Props) => {
-  const [details, setDetails] = useState<State>({
+  const [details, setDetails] = useState<Item>({
     title: "",
     description: "",
     imagePath: "",
@@ -30,7 +27,7 @@ const TileForm = ({ show, handleClose }: Props) => {
       try {
         let data: string | null = localStorage.getItem("items");
         if (data) {
-          let parsedData: State[] = JSON.parse(data);
+          let parsedData: Item[] = JSON.parse(data);
           parsedData.push(details);
           let parsedDataString = JSON.stringify(parsedData);
           localStorage.setItem("items", parsedDataString);
