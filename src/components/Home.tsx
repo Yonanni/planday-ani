@@ -1,4 +1,12 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+
+
+
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useState,
+} from "react";
 import {
   Button,
   Col,
@@ -7,12 +15,13 @@ import {
   Form,
   Row,
 } from "react-bootstrap";
-import Data from "../data/data.json";
+import  data  from "../data/data.json";
 import Notfound from "../assets/notFound.gif";
 import Pagination from "./Pagination";
 import SingleCard, { SingleCardMobile } from "./SingleCard";
 import styles from "./styles.module.scss";
 import TileForm from "./TileForm";
+
 
 interface Item {
   title: string;
@@ -20,20 +29,16 @@ interface Item {
   imagePath: string;
 }
 function Home() {
-  const data: string | null = localStorage.getItem("items");
-  const parsedData = data ? JSON.parse(data) : Data;
+  
 
-  const [items, setItems] = useState<Item[]>(parsedData);
-  const [limit, setLimit] = React.useState<number>(25);
+  const [items, setItems] = useState<Item[]>(data);
+  const [limit, setLimit] = React.useState<number>(3);
   const [title, setTitle] = useState<string>("");
   const [show, setShow] = useState<boolean>(false);
   const [match, setMatch] = useState(
     window.matchMedia("(min-width: 500px)").matches
   );
-  console.log("limit", limit);
-  console.log("parsedData", parsedData.length);
-  console.log("title", title);
-
+    
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const start = 0;
@@ -41,21 +46,27 @@ function Home() {
 
   const handleLimit = () => {
     if (title) {
-      if (limit + 25 >= filtered.length) {
-        setLimit(filtered.length);
+      if (limit + 3 >= mobFilter.length) {
+        setLimit(mobFilter.length);
       } else {
-        setLimit(limit + 25);
+        setLimit(limit + 3);
       }
     } else {
-      if (limit + 25 >= parsedData.length) {
-        setLimit(parsedData.length);
+      if (limit + 3 >= data.length) {
+        setLimit(data.length);
       } else {
-        setLimit(limit + 25);
+        setLimit(limit + 3);
       }
     }
   };
 
-  const filtered = parsedData.filter((info: Item) =>
+  const onSearch = (e: FormEvent) => {
+    e.preventDefault();
+  };
+  const filtered = items.filter((info) =>
+    info.title.toLowerCase().includes(title)
+  );
+  const mobFilter = data.filter((info) =>
     info.title.toLowerCase().includes(title)
   );
 
@@ -70,7 +81,7 @@ function Home() {
     <>
       <TileForm show={show} handleClose={handleClose} />
       <Container>
-        <Form>
+        <Form onSubmit={onSearch}>
           <Row className="d-flex justify-content-between p-4 mb-4">
             <Col xs={12} md={6} lg={8} className="mb-2">
               <FloatingLabel label="Search by title">
@@ -116,10 +127,13 @@ function Home() {
               />
             </div>
           ) : (
-            filtered.map((info: Item, i: number) => <SingleCard info={info} />)
+            filtered.map((info, i) => <SingleCard info={info} />)
           )}
           <>
-            {match && filtered.length == 0 ? (
+            {/* {match && mobFilter.slice(start, stop).map((info, i) => (
+              <SingleCardMobile info={info} />
+            ))} */}
+            {match && mobFilter.length == 0 ? (
               <div>
                 <img
                   src={Notfound}
@@ -130,14 +144,11 @@ function Home() {
               </div>
             ) : (
               match &&
-              filtered
+              mobFilter
                 .slice(start, stop)
-                .map((info: Item, i: number) => (
-                  <SingleCardMobile info={info} />
-                ))
+                .map((info, i) => <SingleCardMobile info={info} />)
             )}
-
-            {limit !== filtered.length && limit !== parsedData.length && (
+            {limit !== data.length && limit !== mobFilter.length || mobFilter.length !== 0 && (
               <Button
                 className=" d-block d-md-none my-4"
                 variant="secondary"
@@ -151,10 +162,7 @@ function Home() {
       </Container>
 
       {filtered.length !== 0 && (
-        <Pagination
-          items={parsedData as never[]}
-          onChangePage={(a) => setItems(a)}
-        />
+        <Pagination items={data as never[]} onChangePage={(a) => setItems(a)} />
       )}
     </>
   );
