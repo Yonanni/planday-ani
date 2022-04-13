@@ -52,8 +52,8 @@ export default function Pagination({ items, onChangePage }: Props) {
     <div className={styles.container}>
       <button disabled={state.currentPage === 1} type="button" onClick={() => changePage(1)}>First</button>
       <button disabled={state.currentPage === 1} type="button" onClick={() => changePage(state.currentPage - 1)}>Previous</button>
-      {state.pages.map((page) => (
-        <button className={state.currentPage === page ? styles.active : ''} type="button" onClick={() => changePage(page)}>{page}</button>
+      {state.pages.map((page, i) => (
+        <button className={state.currentPage === page ? styles.active : ''} type="button" onClick={() => changePage(page)} key={i+1}>{page}</button>
       ))}
       <button disabled={state.currentPage === state.totalPages} type="button" onClick={() => changePage(state.currentPage + 1)}>Next</button>
       <button disabled={state.currentPage === state.totalPages} type="button" onClick={() => changePage(state.totalPages)}>Last</button>

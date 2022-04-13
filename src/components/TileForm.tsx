@@ -41,6 +41,7 @@ const TileForm = ({ show, handleClose }: Props) => {
           description: "",
           imagePath: "",
         });
+        handleClose()
       } catch (err) {
         console.log(err);
       }
@@ -101,14 +102,7 @@ const TileForm = ({ show, handleClose }: Props) => {
           </Button>
         </Form>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Close
-        </Button>
-        <Button variant="primary" onClick={handleClose}>
-          Save Changes
-        </Button>
-      </Modal.Footer>
+      
     </Modal>
   );
 };

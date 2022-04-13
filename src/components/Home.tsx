@@ -1,5 +1,5 @@
 
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -36,7 +36,10 @@ function Home() {
   console.log("title", title);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = (e: FormEvent) => {
+    e.preventDefault()
+    setShow(true)
+  }
   const start = 0;
   const stop = limit;
 
@@ -117,7 +120,7 @@ function Home() {
               />
             </div>
           ) : (
-            filtered.map((info: Item, i: number) => <SingleCard info={info} />)
+            filtered.map((info: Item, i: number) => <SingleCard info={info} key={i+1} />)
           )}
           <>
             {match && filtered.length == 0 ? (
@@ -134,7 +137,7 @@ function Home() {
               filtered
                 .slice(start, stop)
                 .map((info: Item, i: number) => (
-                  <SingleCardMobile info={info} />
+                  <SingleCardMobile info={info} key={i+1} />
                 ))
             )}
 
