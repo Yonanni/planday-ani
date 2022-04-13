@@ -8,7 +8,7 @@ interface Props {
 
 const SingleCard = ({ info }: Props) => {
   return (
-    <Col className="web d-none d-md-block">
+    <Col className="web d-none d-md-block mb-3">
       <Card style={{ width: "16rem" }}>
         <Card.Img
           variant="top"
