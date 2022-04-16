@@ -1,4 +1,7 @@
 
+
+
+
 import React, {
   ChangeEvent,
   FormEvent,
@@ -17,7 +20,6 @@ import  data  from "../data/data.json";
 import Notfound from "../assets/notFound.gif";
 import Pagination from "./Pagination";
 import SingleCard, { SingleCardMobile } from "./SingleCard";
-import styles from "./styles.module.scss";
 import TileForm from "./TileForm";
 import { Item } from "./typing";
 
@@ -31,9 +33,7 @@ function Home() {
   const [limit, setLimit] = React.useState<number>(3);
   const [title, setTitle] = useState<string>("");
   const [show, setShow] = useState<boolean>(false);
-  const [match, setMatch] = useState(
-    window.matchMedia("(min-width: 500px)").matches
-  );
+  
     
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -66,12 +66,6 @@ function Home() {
     info.title.toLowerCase().includes(title)
   );
 
-  useEffect(() => {
-    const listener = (e: MediaQueryListEvent) => setMatch(e.matches);
-    const mediaQuery = window.matchMedia("(max-width: 768px)");
-    mediaQuery.addEventListener("change", listener);
-    return () => mediaQuery.removeEventListener("change", listener);
-  }, []);
 
   return (
     <>
@@ -113,7 +107,7 @@ function Home() {
 
       <Container className="mb-3">
         <Row>
-          {!match && filtered.length == 0 ? (
+          {filtered.length === 0 ? (
             <div>
               <img
                 src={Notfound}
@@ -123,10 +117,10 @@ function Home() {
               />
             </div>
           ) : (
-            filtered.map((info: Item, i: number) => <SingleCard info={info} />)
+            filtered.map((info: Item, i: number) => <SingleCard key={i+1} info={info} />)
           )}
           <>
-            {match && mobFilter.length == 0 ? (
+            {mobFilter.length === 0 ? (
               <div>
                 <img
                   src={Notfound}
@@ -136,12 +130,12 @@ function Home() {
                 />
               </div>
             ) : (
-              match &&
+              
               mobFilter
                 .slice(start, stop)
-                .map((info: Item, i: number) => <SingleCardMobile info={info} />)
+                .map((info: Item, i: number) => <SingleCardMobile key={i+1} info={info} />)
             )}
-            {limit !== parsedData.length && limit !== mobFilter.length  && (
+            {limit !== parsedData.length && limit !== mobFilter.length && mobFilter.length !== 0 && (
               <Button
                 className=" d-block d-md-none my-4"
                 variant="secondary"
