@@ -40,6 +40,7 @@ function Home() {
   const start = 0;
   const stop = limit;
 
+
   const handleLimit = () => {
     if (title) {
       if (limit + 3 >= mobFilter.length) {
@@ -62,6 +63,7 @@ function Home() {
   const filtered = items.filter((info: Item) =>
     info.title.toLowerCase().includes(title)
   );
+ 
   const mobFilter = parsedData.filter((info: Item) =>
     info.title.toLowerCase().includes(title)
   );
@@ -149,7 +151,7 @@ function Home() {
       </Container>
 
       {filtered.length !== 0 && (
-        <Pagination items={parsedData as never[]} onChangePage={(a) => setItems(a)} />
+        <Pagination items={title? filtered as never[]: parsedData as never[]} onChangePage={(a) => setItems(a)} title={title} />
       )}
     </>
   );

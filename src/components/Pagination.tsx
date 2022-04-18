@@ -6,6 +6,7 @@ import styles from './styles.module.scss';
 interface Props {
   items: never[];
   onChangePage: (items: never[]) => void;
+  title: string
 }
 
 interface State {
@@ -19,7 +20,7 @@ interface State {
   endPage: number;
 }
 
-export default function Pagination({ items, onChangePage }: Props) {
+export default function Pagination({ items, onChangePage, title }: Props) {
   const [state, setState] = useState<State>({
     totalPages: 0,
     startIndex: 0,
@@ -31,10 +32,10 @@ export default function Pagination({ items, onChangePage }: Props) {
     endPage: 0,
   });
 
+
   const changePage = (page: number) => {
     const { totalPages } = state;
     const pager = setPage(items, page);
-
     if (page < 1 || page > totalPages) return;
 
     setState(pager.newState);
@@ -45,7 +46,7 @@ export default function Pagination({ items, onChangePage }: Props) {
     const pager = setPage(items);
     setState(pager.newState);
     onChangePage(pager.items);
-  }, []);
+  }, [title]);
 
   return (
     <div className='d-none d-md-block my-5'>
